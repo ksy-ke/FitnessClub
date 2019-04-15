@@ -1,5 +1,5 @@
 package com.shatokhina.fitnessClub;
 
-public enum FitnessServices {
+public enum FitnessService {
     GYM, POOL, GROUP
 }
