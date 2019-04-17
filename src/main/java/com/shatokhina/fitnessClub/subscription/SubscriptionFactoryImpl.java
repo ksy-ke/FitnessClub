@@ -1,7 +1,6 @@
 package com.shatokhina.fitnessClub.subscription;
 
 import com.shatokhina.fitnessClub.FitnessService;
-import com.shatokhina.fitnessClub.User;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -13,16 +12,16 @@ import static java.time.LocalDate.now;
 public final class SubscriptionFactoryImpl implements OneTimeSubscriptionFactory, DaySubscriptionFactory, FullDaySubscriptionFactory {
     private static final LocalTime DEFAULT_UNTIL = LocalTime.of(22, 0);
 
-    private UnaryOperator<LocalDate> endTimeCalculation;
-    private final User user;
     private final EnumSet<FitnessService> services;
+    private UnaryOperator<LocalDate> endTimeCalculation;
     private LocalDate registeredDate;
     private LocalTime visitsUntil;
+    private String type;
 
-    SubscriptionFactoryImpl(User user, EnumSet<FitnessService> services, UnaryOperator<LocalDate> endTimeCalculation) {
-        this.user = user;
+    SubscriptionFactoryImpl(String type, EnumSet<FitnessService> services, UnaryOperator<LocalDate> endTimeCalculation) {
         this.services = services;
         this.endTimeCalculation = endTimeCalculation;
+        this.type = type;
     }
 
     public void setRegistered(LocalDate registeredDate) { this.registeredDate = registeredDate; }
@@ -35,7 +34,7 @@ public final class SubscriptionFactoryImpl implements OneTimeSubscriptionFactory
         var registration = registeredDate != null ? registeredDate : now();
 
         return new Subscription(
-                user,
+                type,
                 services,
                 registration,
                 visitsUntil != null ? visitsUntil : DEFAULT_UNTIL,
