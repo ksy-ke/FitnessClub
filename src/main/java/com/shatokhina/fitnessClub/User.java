@@ -36,14 +36,19 @@ public final class User {
     public LocalDate getDateOfBirth() { return dateOfBirth; }
 
     public User validationOfSubscription() {
-        if (subscription != null && subscription.getDateOfEnd().isBefore(LocalDate.now())) return new User(surname, name, dateOfBirth);
+        if (subscription != null && subscription.getDateOfEnd().isBefore(LocalDate.now()))
+            return new User(surname, name, dateOfBirth);
         return this;
     }
 
     @Override
     public String toString() {
+        Optional<Subscription> subscription = getSubscription();
+        String type = "no subscription";
+        if (subscription.isPresent()) type = subscription.get().getType();
+
         return '<' + surname + '>' +
                 " <" + name + '>' +
-                " <" + subscription.getType() + '>';
+                " <" + type + '>';
     }
 }
